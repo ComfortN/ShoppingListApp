@@ -4,6 +4,7 @@ import { NavigationContainer } from '@react-navigation/native';
 import { useSelector } from 'react-redux';
 import AuthScreen from '../src/pages/AuthScreen';
 import HomeScreen from '../src/pages/HomeScreen';
+import ShoppingList from '../src/components/ShoppingList'; // Add your shopping list screen
 import Colors from '../src/theme/colors';
 
 // Create Stack Navigator
@@ -34,7 +35,11 @@ const AppNavigator = () => {
               component={HomeScreen} 
               options={{ title: 'TidyCart!' }}
             />
-            
+            <Stack.Screen 
+              name="ShoppingList" 
+              component={ShoppingList} 
+              options={{ title: 'Shopping List' }}
+            />
           </>
         ) : (
           // Unauthenticated routes
