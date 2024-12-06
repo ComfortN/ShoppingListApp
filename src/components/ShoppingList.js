@@ -1,19 +1,42 @@
 import React, { useState, useEffect } from 'react';
-import { View, Text, ScrollView, StyleSheet, Alert, TouchableOpacity } from 'react-native';
+import { View, Text, ScrollView, StyleSheet, Alert, TouchableOpacity, TouchableWithoutFeedback } from 'react-native';
 import DatabaseService from '../features/sqlite/database';
 import ItemForm from './ItemForm';
 import Item from './Item';
-import { Ionicons } from '@expo/vector-icons';
+import { Ionicons, MaterialIcons } from '@expo/vector-icons';
 import colors from '../theme/colors';
 
-const ShoppingList = () => {
+const ShoppingList = ({navigation}) => {
   const [items, setItems] = useState([]);
   const [isFormVisible, setIsFormVisible] = useState(false);
   const [editingItem, setEditingItem] = useState(null);
+  const [isOptionsMenuVisible, setIsOptionsMenuVisible] = useState(false);
 
   useEffect(() => {
+    // Add header right button for options menu
+    navigation.setOptions({
+      headerRight: () => (
+        <TouchableOpacity 
+          onPress={() => setIsOptionsMenuVisible(!isOptionsMenuVisible)}
+          style={styles.headerOptionsButton}
+        >
+          <MaterialIcons name="more-vert" size={24} color="white" />
+        </TouchableOpacity>
+      )
+    });
     fetchItems();
-  }, []);
+  }, [navigation, isOptionsMenuVisible]);
+
+
+  const handleProfileNavigation = () => {
+    navigation.navigate('Profile');
+    setIsOptionsMenuVisible(false);
+  };
+
+  const handleSettingsNavigation = () => {
+    navigation.navigate('Settings');
+    setIsOptionsMenuVisible(false);
+  };
 
   const fetchItems = async () => {
     try {
@@ -86,6 +109,30 @@ const ShoppingList = () => {
         ))}
       </ScrollView>
 
+
+      {isOptionsMenuVisible && (
+        <TouchableWithoutFeedback onPress={() => setIsOptionsMenuVisible(false)}>
+          <View style={styles.optionsMenuOverlay}>
+            <View style={styles.optionsMenu}>
+              <TouchableOpacity 
+                style={styles.optionsMenuItem}
+                onPress={handleProfileNavigation}
+              >
+                <Ionicons name="person-outline" size={20} color={colors.text} />
+                <Text style={styles.optionsMenuItemText}>Profile</Text>
+              </TouchableOpacity>
+              <TouchableOpacity 
+                style={styles.optionsMenuItem}
+                onPress={handleSettingsNavigation}
+              >
+                <Ionicons name="settings-outline" size={20} color={colors.text} />
+                <Text style={styles.optionsMenuItemText}>Settings</Text>
+              </TouchableOpacity>
+            </View>
+          </View>
+        </TouchableWithoutFeedback>
+      )}
+
       <TouchableOpacity
         style={styles.floatingAddButton}
         onPress={() => {
@@ -140,6 +187,41 @@ const styles = StyleSheet.create({
   },
   addButtonContainer: {
     marginBottom: 20,
+  },
+  headerOptionsButton: {
+    marginRight: 15,
+  },
+  optionsMenuOverlay: {
+    position: 'absolute',
+    top: 0,
+    left: 0,
+    right: 0,
+    bottom: 0,
+    backgroundColor: 'rgba(0,0,0,0.5)',
+    justifyContent: 'flex-start',
+    alignItems: 'flex-end',
+  },
+  optionsMenu: {
+    backgroundColor: 'white',
+    borderRadius: 5,
+    marginTop: 50,
+    marginRight: 10,
+    padding: 10,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.25,
+    shadowRadius: 3.84,
+    elevation: 5,
+  },
+  optionsMenuItem: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    paddingVertical: 10,
+    paddingHorizontal: 15,
+  },
+  optionsMenuItemText: {
+    marginLeft: 10,
+    color: colors.text,
   },
 });
 

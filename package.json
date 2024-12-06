@@ -29,7 +29,8 @@
     "react-native-vector-icons": "^10.2.0",
     "react-native-web": "~0.19.13",
     "react-redux": "^9.1.2",
-    "shoppinglist": "file:"
+    "shoppinglist": "file:",
+    "@react-native-async-storage/async-storage": "1.23.1"
   },
   "devDependencies": {
     "@babel/core": "^7.20.0"
