@@ -5,7 +5,9 @@ import { useSelector } from 'react-redux';
 import SplashScreen from '../src/pages/SplashScreen';
 import AuthScreen from '../src/pages/AuthScreen';
 import HomeScreen from '../src/pages/HomeScreen';
-import ShoppingList from '../src/components/ShoppingList'; // Add your shopping list screen
+import ShoppingList from '../src/components/ShoppingList';
+import { ProfileScreen } from '../src/pages/ProfileScreen';
+import { SettingsScreen } from '../src/pages/SettingsScreen';
 import Colors from '../src/theme/colors';
 
 // Create Stack Navigator
@@ -57,6 +59,16 @@ const AppNavigator = () => {
               name="ShoppingList" 
               component={ShoppingList} 
               options={{ title: 'Shopping List' }}
+            />
+            <Stack.Screen 
+              name="Profile" 
+              component={ProfileScreen} 
+              options={{ title: 'Profile' }}
+            />
+            <Stack.Screen 
+              name="Settings" 
+              component={SettingsScreen} 
+              options={{ title: 'Settings' }}
             />
           </>
         ) : (
