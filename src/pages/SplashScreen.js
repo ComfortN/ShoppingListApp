@@ -6,28 +6,26 @@ import {
   StyleSheet, 
   Dimensions 
 } from 'react-native';
-import Colors from '../theme/colors'; // Adjust the import path as needed
+import Colors from '../theme/colors';
 
 const { width, height } = Dimensions.get('window');
 
 const SplashScreen = () => {
-  return (
-    <View style={styles.container}>
-      <Image 
-        source={require('../../assets/my-cart.png')} // Adjust path to your logo
-        style={styles.logo}
-        resizeMode="contain"
-      />
-      
-      {/* App Name */}
-      <Text style={styles.appName}>TidyCart</Text>
-      
-      {/* Loading Indicator */}
-      <View style={styles.loadingContainer}>
-        <Text style={styles.loadingText}>Loading...</Text>
-      </View>
-    </View>
-  );
+    return (
+        <View style={styles.container}>
+        <Image 
+            source={require('../../assets/my-cart.png')}
+            style={styles.logo}
+            resizeMode="contain"
+        />
+        <Text style={styles.appName}>TidyCart</Text>
+        
+        {/* Loading Indicator */}
+        <View style={styles.loadingContainer}>
+            <Text style={styles.loadingText}>Loading...</Text>
+        </View>
+        </View>
+    );
 };
 
 const styles = StyleSheet.create({

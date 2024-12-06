@@ -1,16 +1,16 @@
 import React from 'react';
 import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
 import Checkbox from 'expo-checkbox';
-
+import Colors from '../theme/colors';
 
 const Item = ({ item, onDelete, onToggle, onEdit }) => {
   return (
     <View style={styles.itemContainer}>
       <View style={styles.itemDetails}>
         <Checkbox
-            disabled={false}
           value={item.purchased}
           onValueChange={() => onToggle(item.id)}
+          color={item.purchased ? Colors.primary : Colors.secondary}
         />
         <Text style={[styles.itemText, item.purchased && styles.purchased]}>
           {item.name} (x{item.quantity})
@@ -28,6 +28,8 @@ const Item = ({ item, onDelete, onToggle, onEdit }) => {
   );
 };
 
+export default Item;
+
 const styles = StyleSheet.create({
   itemContainer: {
     flexDirection: 'row',
@@ -35,7 +37,10 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     padding: 10,
     borderBottomWidth: 1,
-    borderBottomColor: '#ccc',
+    backgroundColor: Colors.text,
+    borderRadius: 8,
+    marginVertical: 5,
+ 
   },
   itemDetails: {
     flexDirection: 'row',
@@ -49,26 +54,31 @@ const styles = StyleSheet.create({
     marginLeft: 10,
     fontSize: 16,
     flex: 1,
+    color: Colors.primary,
   },
   purchased: {
     textDecorationLine: 'line-through',
-    color: '#888',
+    color: Colors.textLight,
   },
   editButton: {
-    padding: 5,
+    padding: 8,
+    backgroundColor: Colors.secondary,
+    borderRadius: 5,
     marginRight: 10,
   },
   editText: {
-    color: 'blue',
+    color: '#fff',
     fontSize: 14,
+    fontWeight: 'bold',
   },
   deleteButton: {
-    padding: 5,
+    padding: 8,
+    backgroundColor: Colors.error,
+    borderRadius: 5,
   },
   deleteText: {
-    color: 'red',
+    color: '#fff',
     fontSize: 14,
+    fontWeight: 'bold',
   },
 });
-
-export default Item;

@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import { View, TextInput, Button, StyleSheet, Alert, Modal } from 'react-native';
+import { View, TextInput, Button, StyleSheet, Alert, Modal, Text, TouchableOpacity } from 'react-native';
+import Colors from '../theme/colors';
 
 const ItemForm = ({ 
   onSubmit, 
@@ -36,7 +37,7 @@ const ItemForm = ({
     const itemToSubmit = {
       name, 
       quantity: parseInt(quantity),
-      purchased: isEditing ? initialItem.purchased : false
+      purchased: isEditing ? initialItem.purchased : false,
     };
 
     if (isEditing) {
@@ -62,11 +63,13 @@ const ItemForm = ({
     >
       <View style={styles.modalContainer}>
         <View style={styles.formContainer}>
+          <Text style={styles.title}>{isEditing ? "Edit Item" : "Add Item"}</Text>
           <TextInput
             style={styles.input}
             placeholder="Item Name"
             value={name}
             onChangeText={setName}
+            placeholderTextColor="#aaa"
           />
           <TextInput
             style={styles.input}
@@ -74,17 +77,23 @@ const ItemForm = ({
             keyboardType="number-pad"
             value={quantity}
             onChangeText={setQuantity}
+            placeholderTextColor="#aaa"
           />
           <View style={styles.buttonContainer}>
-            <Button 
-              title={isEditing ? "Update Item" : "Add Item"} 
-              onPress={handleSubmit} 
-            />
-            <Button 
-              title="Cancel" 
-              onPress={onClose} 
-              color="red" 
-            />
+            <TouchableOpacity 
+              style={[styles.button, styles.submitButton]} 
+              onPress={handleSubmit}
+            >
+              <Text style={styles.buttonText}>
+                {isEditing ? "Update" : "Add"}
+              </Text>
+            </TouchableOpacity>
+            <TouchableOpacity 
+              style={[styles.button, styles.cancelButton]} 
+              onPress={onClose}
+            >
+              <Text style={styles.buttonText}>Cancel</Text>
+            </TouchableOpacity>
           </View>
         </View>
       </View>
@@ -100,22 +109,54 @@ const styles = StyleSheet.create({
     backgroundColor: 'rgba(0,0,0,0.5)',
   },
   formContainer: {
-    width: '80%',
-    backgroundColor: 'white',
+    width: '85%',
+    backgroundColor: Colors.background,
     padding: 20,
-    borderRadius: 10,
+    borderRadius: 15,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 4 },
+    shadowOpacity: 0.3,
+    shadowRadius: 4,
+    elevation: 8,
+  },
+  title: {
+    fontSize: 18,
+    fontWeight: 'bold',
+    color: '#333',
+    marginBottom: 15,
+    textAlign: 'center',
   },
   input: {
     borderWidth: 1,
-    borderColor: '#ccc',
-    borderRadius: 5,
+    borderColor: Colors.border,
+    borderRadius: 8,
     padding: 10,
-    marginBottom: 10,
+    marginBottom: 15,
     fontSize: 16,
+    backgroundColor: '#fff',
+    color: '#333',
   },
   buttonContainer: {
     flexDirection: 'row',
     justifyContent: 'space-between',
+  },
+  button: {
+    flex: 1,
+    padding: 10,
+    borderRadius: 8,
+    marginHorizontal: 5,
+    alignItems: 'center',
+  },
+  submitButton: {
+    backgroundColor: Colors.primary,
+  },
+  cancelButton: {
+    backgroundColor: Colors.text,
+  },
+  buttonText: {
+    color: '#fff',
+    fontWeight: '600',
+    fontSize: 16,
   },
 });
 

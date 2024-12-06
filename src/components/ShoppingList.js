@@ -3,14 +3,14 @@ import { View, Text, ScrollView, StyleSheet, Alert, TouchableOpacity } from 'rea
 import DatabaseService from '../features/sqlite/database';
 import ItemForm from './ItemForm';
 import Item from './Item';
-import { Ionicons } from '@expo/vector-icons'; 
+import { Ionicons } from '@expo/vector-icons';
+import colors from '../theme/colors';
 
 const ShoppingList = () => {
   const [items, setItems] = useState([]);
   const [isFormVisible, setIsFormVisible] = useState(false);
   const [editingItem, setEditingItem] = useState(null);
 
-  // Fetch items on mount
   useEffect(() => {
     fetchItems();
   }, []);
@@ -18,9 +18,7 @@ const ShoppingList = () => {
   const fetchItems = async () => {
     try {
       const fetchedItems = await DatabaseService.getItems();
-      console.log("items: ", fetchedItems )
       setItems(fetchedItems);
-      console.log("items: ", fetchedItems )
     } catch (error) {
       console.error('Error fetching items:', error);
     }
@@ -29,26 +27,13 @@ const ShoppingList = () => {
   const addItem = async (item) => {
     try {
       if (item.id) {
-        // Editing existing item
-        await DatabaseService.editItem(
-          item.id, 
-          item.name, 
-          item.quantity, 
-          item.purchased
-        );
+        await DatabaseService.editItem(item.id, item.name, item.quantity, item.purchased);
       } else {
-        // Adding new item
-        await DatabaseService.addItem(
-          item.name, 
-          item.quantity, 
-          item.purchased
-        );
+        await DatabaseService.addItem(item.name, item.quantity, item.purchased);
       }
       fetchItems();
-      console.log("items: ", item )
       setIsFormVisible(false);
       setEditingItem(null);
-      console.log("items: ", item )
     } catch (error) {
       console.error('Error adding/editing item:', error);
     }
@@ -75,12 +60,7 @@ const ShoppingList = () => {
   const togglePurchased = async (id) => {
     try {
       const item = items.find((i) => i.id === id);
-      await DatabaseService.editItem(
-        item.id, 
-        item.name, 
-        item.quantity, 
-        !item.purchased
-      );
+      await DatabaseService.editItem(item.id, item.name, item.quantity, !item.purchased);
       fetchItems();
     } catch (error) {
       console.error('Error toggling purchased status:', error);
@@ -106,15 +86,14 @@ const ShoppingList = () => {
         ))}
       </ScrollView>
 
-      <TouchableOpacity 
-        style={styles.floatingAddButton} 
+      <TouchableOpacity
+        style={styles.floatingAddButton}
         onPress={() => {
-          console.log('Add New Item clicked');
           setEditingItem(null);
           setIsFormVisible(true);
         }}
       >
-        <Ionicons name="add" size={24} color="white" />
+        <Ionicons name="add" size={24} color={'#fff'} />
         <Text style={styles.addButtonText}>ADD</Text>
       </TouchableOpacity>
 
@@ -134,14 +113,14 @@ const ShoppingList = () => {
 const styles = StyleSheet.create({
   container: {
     padding: 20,
-    backgroundColor: '#f5f5f5',
+    backgroundColor: colors.background,
     flex: 1,
   },
   floatingAddButton: {
     position: 'absolute',
     bottom: 20,
     right: 20,
-    backgroundColor: '#007bff',
+    backgroundColor: colors.primary,
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'center',
@@ -149,13 +128,13 @@ const styles = StyleSheet.create({
     paddingHorizontal: 15,
     borderRadius: 30,
     elevation: 5,
-    shadowColor: '#000',
+    shadowColor: colors.shadow,
     shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.25,
     shadowRadius: 3.84,
   },
   addButtonText: {
-    color: 'white',
+    color: "#fff",
     marginLeft: 5,
     fontWeight: 'bold',
   },

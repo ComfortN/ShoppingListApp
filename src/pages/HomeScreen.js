@@ -19,14 +19,14 @@ const HomeScreen = ({ navigation }) => {
         <Button 
           title="Go to Shopping List" 
           onPress={() => navigation.navigate('ShoppingList')} 
-          color={Colors.primary} // Use the primary color for buttons
+          color={Colors.primary}
         />
       </View>
       <View style={styles.buttonContainer}>
         <Button 
           title="Logout" 
           onPress={handleLogout} 
-          color={Colors.secondary} // Use the secondary color for the logout button
+          color={Colors.secondary}
         />
       </View>
     </View>
@@ -36,7 +36,7 @@ const HomeScreen = ({ navigation }) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: Colors.background, // Set the background color
+    backgroundColor: Colors.background,
     justifyContent: 'center',
     alignItems: 'center',
     padding: 20,
